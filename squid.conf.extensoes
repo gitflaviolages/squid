@@ -1,6 +1,6 @@
 ##     PROXY ATIVO
 ##     Squid-3 / 2015
-##     Bloqueio de exrensões - palavras
+##     Bloqueio de extensões - palavras
 
 http_port 3128
 acl lan src 192.168.0.0/24 # Rede interna
