@@ -1,0 +1,42 @@
+##     PROXY ATIVO
+##     Squid-3 / 2015
+##     Bloqueio de exrensões - palavras
+
+http_port 3128
+acl lan src 192.168.0.0/24 # Rede interna
+
+acl SSL_ports port 443          # SSL
+acl Safe_ports port 21          # ftp
+acl Safe_ports port 25          # SMTP
+acl Safe_ports port 70          # gopher
+acl Safe_ports port 80          # http
+acl Safe_ports port 110         # POP3
+acl Safe_ports port 210         # wais
+acl Safe_ports port 280         # http-mgmt
+acl Safe_ports port 443         # https
+acl Safe_ports port 465         # SMTP-SSL
+acl Safe_ports port 488         # gss-http
+acl Safe_ports port 591         # filemaker
+acl Safe_ports port 777         # multiling http
+acl Safe_ports port 995         # POP-SSL
+acl Safe_ports port 993         # IMAP-SSL
+acl Safe_ports port 1025-65535  # portas altas
+acl CONNECT method CONNECT
+
+acl l-mac arp "/../squid/libera/mac"
+acl b-ext urlpath_regex -i \.mp3 \.webm \.wma \.mp4 \.flv \.ogg \.mov \.avi 
+acl b-pavavra url_regex "/../squid/bloqueio/palavra"
+
+http_access deny !Safe_ports
+http_access deny CONNECT !SSL_ports
+http_access allow localhost manager
+http_access deny manager
+http_access allow localhost
+
+http_access allow l-mac
+http_access deny b-ext
+http_access deny b-palavra
+
+http_access allow lan
+
+## Por Flávio Lages
